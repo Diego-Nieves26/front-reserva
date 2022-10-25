@@ -1,20 +1,61 @@
 import "./PagoProceso.css";
 import img from "../../assets/images/pago-proceso-img.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { setModal } from "../../store/slices/modal.slice";
+import {setDon} from "../../store/slices/reservada.slice"
+import axios from "axios";
 
-function PagoProceso({btn}) {
+function PagoProceso({ btn }) {
+  const canchaReserva = useSelector((state) => state.canchaReserva);
   const dataReserva = useSelector((state) => state.dataReserva);
+  const dispatch = useDispatch();
+
+  const [imgCancha, setImgCancha] = useState("");
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://back-reserva.herokuapp.com/api/v1/fild/${canchaReserva._id}`
+      )
+      .then((res) => setImgCancha(res.data.fild.fildImgUrl[1].fildUrl));
+  }, []);
+
+  const finalizar = () => {
+    const dataBook = {
+      price: dataReserva.time * canchaReserva.price,
+      bookingDate: dataReserva.date,
+      bookingTime: dataReserva.hour,
+      sceneryId: canchaReserva.sceneryId._id,
+      fildId: canchaReserva._id,
+    };
+    var config = {
+      method: "post",
+      url: "https://back-reserva.herokuapp.com/api/v1/bookings",
+      headers: { Authorization: `Bearer ${localStorage.getItem("tokenUser")}` },
+      data: dataBook,
+    };
+    axios(config).then((res) => {
+      dispatch(setDon(res.data.newBooking))
+      dispatch(
+        setModal({
+          status: "success",
+          text: "Cancha reservada con exito",
+          to: "/perfil",
+          toName: "Dirigete a tu perfil",
+        })
+      );
+    });
+  };
+
   return (
     <div className="pago-card">
       <div className="pago-card-description">
-        <img className="pago-proceso-img" alt="Imagen card" src={img} />
+        <img className="pago-proceso-img" alt="Imagen card" src={imgCancha} />
         <div>
-          <h2 className="pago-proceso-titulo">Cancha Toledo</h2>
+          <h2 className="pago-proceso-titulo">{canchaReserva.nameFild}</h2>
           <p className="reserva-textos">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
-            volutpat libero ut pharetra rutrum. Fusce vel ligula ligula.
-            Suspendisse iaculis tellus non dui porta vestibulum. Proin nisl
-            erat, pharetra hendrerit enim eu.
+            {canchaReserva.sceneryId?.description}
           </p>
         </div>
       </div>
@@ -38,14 +79,16 @@ function PagoProceso({btn}) {
           {/* <i className="pago-horas">(Según la cantidad de horas)</i> */}
           <p className="pago-fecha-texto">
             {dataReserva !== null
-              ? +dataReserva.time * 2
+              ? +dataReserva.time * canchaReserva.price
               : "Sin definir"}
           </p>
         </li>
       </ul>
       {btn && (
         <div className="containerPayFinishBtn">
-        <button className="btn__pay__finish">Finalizar compra</button>
+          <button className="btn__pay__finish" onClick={finalizar}>
+            Finalizar compra
+          </button>
         </div>
       )}
     </div>
