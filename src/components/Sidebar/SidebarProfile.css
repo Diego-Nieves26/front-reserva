@@ -1,0 +1,67 @@
+.containerProfilePic {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.profilePic {
+  width: 36%;
+  z-index: 1;
+}
+.containerData {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 70px;
+}
+.user {
+  width: 100%;
+  margin: 20px 0px;
+  text-align: center;
+  margin-bottom: 70px;
+    font-size: 30px;
+}
+.born {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.gmail {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sport {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.courts {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.containerData div{
+  margin-bottom: 7px;
+}
+
+@media (min-width: 1023px){
+  .profilePic{
+    width: 71%;
+    border-radius: 13px;
+  }
+  .containerProfilePic{
+    display: flex;
+    justify-content: center;
+    margin-left: 0;
+  }
+  .user{
+    display: flex;
+    margin-left: 79px;
+    font-size: 20px;
+  }
+  .containerData{
+    width: 26%;
+  }
+
+}

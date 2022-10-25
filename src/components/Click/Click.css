@@ -1,0 +1,75 @@
+.click-contenedor {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* grid-template-rows: repeat(2, auto);*/
+  grid-auto-columns: 1fr;
+  gap: 0px 0px;
+  margin-top: 40px;
+  max-width: 100%;
+  font-size: 1em;
+  background-color: #ff7f56;
+  color: white;
+}
+
+.rectangle-div {
+  margin: auto;
+  /* display: flex; */
+  /* flex-direction: column; */
+    /* align-items: center;
+    justify-content: center; */
+  grid-column: 1;
+  /* height: 100%; */
+  padding: 50px;
+}
+.click-list{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.click-list li{
+  display: flex;
+  gap: 20px;
+}
+
+.click-titulo {
+  text-align: left;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.cantainer-img{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.click-img {
+  grid-column: 2;
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+}
+
+.click-icon{
+  width: 40px;
+  height: 40px;
+}
+
+
+
+@media screen and (max-width: 768px) {
+  .rectangle-div{
+    grid-column: 1 / -1;
+    padding: 50px;
+  }
+  .click-img{
+  display: none;
+  }
+  .click-icon{
+    width: 20px;
+    height: 20px;
+  }
+}
